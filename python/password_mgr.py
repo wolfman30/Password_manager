@@ -11,11 +11,14 @@ class BasePasswordManager:
     #last item of old_passwords is current password
     old_passwords = [] 
 
+    def __str__(self):
+        return "Your current password is {}".format(self.old_passwords[-1])
+
     def get_password(self):
-        return old_passwords[-1]
+        return self.old_passwords[-1]
 
     def is_correct(self, string):
-        if string == old_passwords[-1]:
+        if string == self.old_passwords[-1]:
             return True
         else:
             return False
@@ -35,5 +38,9 @@ class PasswordManager(BasePasswordManager):
 
 user = PasswordManager()
 user.set_password()
+
+print(user)
+
+print(user.old_passwords)
 
 
