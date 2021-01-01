@@ -15,13 +15,14 @@ class BasePasswordManager:
 
         with open('passwords.txt', 'r') as passwords:
             for word in passwords.readlines(): 
+                word = word.strip()
                 old_passwords.append(word)
 
     except: 
         pass
         
     def __str__(self):
-        return "Your current password is {}".format(self.old_passwords[-1])
+        return "\nYour current password is {}\n".format(self.old_passwords[-1])
 
     def get_password(self):
         return self.old_passwords[-1]
@@ -51,10 +52,23 @@ class PasswordManager(BasePasswordManager):
 
 
 user = PasswordManager()
-user.set_password()
+
+while True: 
+
+    if user.old_passwords != []: 
+        user_y_n = input('You already have a password. Do you want to set another one? y for yes, n for no ').lower()
+        if user_y_n == 'y':
+            user.set_password()
+            user_y_n = input('Are you satisfied with this password? y for yes, n for no ')
+            if user_y_n == 'y':
+                break
+            else: 
+                continue
+        else: 
+            break
 
 print(user)
 
-print(user.old_passwords)
+print("Here are all your passwords, from earliest to latest:", user.old_passwords)
 
 
