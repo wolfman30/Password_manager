@@ -68,16 +68,16 @@ class PasswordManager(BasePasswordManager):
 
         if char_count == 0: 
             if (letter_count >= 1 and num_count == 0) or (letter_count == 0 and num_count >= 1):
-                level_0 = True
+                level_0 = 0
                 print('Your new password meets requirements of security level 0 \n')
                 return level_0
             elif letter_count >= 1 and num_count >= 1:
-                level_1 = True
+                level_1 = 1
                 print('Your new password meets the requirements of security level 1. \n')
                 return level_1
         else: 
             if letter_count >= 1 and num_count >= 1:
-                level_2 = True
+                level_2 = 2
                 print('Your new password meets the requirments of security level 2 \n')
                 return level_2
                     
