@@ -43,8 +43,13 @@ class PasswordManager(BasePasswordManager):
 
         self.password_input = input('Set your password: ')
 
-        while len(self.password_input) < 6:
-            self.password_input = input("Your password need to be a minimum length of 6 characters. Try again: ")
+        while len(self.password_input) < 6 or self.get_level(password=self.password_input) <= self.get_level(self.old_passwords[-1]):
+            
+            if len(self.password_input) < 6: 
+                self.password_input = input("Your password needs to be a minimum length of 6 characters. Try again: ")
+            
+            if self.get_level(password=self.password_input) <= self.get_level(self.old_passwords[-1]):
+                self.password_input = input('The new password you typed does not meet the requirments of a security level greater than your last password. Try again: ')
 
         with open('passwords.txt', 'a+') as pwds: 
             pwds.write(self.password_input + '\n')
@@ -52,13 +57,13 @@ class PasswordManager(BasePasswordManager):
         
         return self.old_passwords.append(self.password_input)
 
-    def get_level(self):
+    def get_level(self, password):
 
         letter_count = 0 
         num_count = 0 
         char_count = 0
         
-        for char in self.password_input:
+        for char in password:
             if char in letters: 
                 letter_count += 1 
             elif char in numbers: 
@@ -69,16 +74,14 @@ class PasswordManager(BasePasswordManager):
         if char_count == 0: 
             if (letter_count >= 1 and num_count == 0) or (letter_count == 0 and num_count >= 1):
                 level_0 = 0
-                print('Your new password meets requirements of security level 0 \n')
                 return level_0
+
             elif letter_count >= 1 and num_count >= 1:
                 level_1 = 1
-                print('Your new password meets the requirements of security level 1. \n')
                 return level_1
         else: 
             if letter_count >= 1 and num_count >= 1:
                 level_2 = 2
-                print('Your new password meets the requirments of security level 2 \n')
                 return level_2
                     
 
@@ -102,8 +105,6 @@ while True:
             break
 
 print(user)
-
-user.get_level()
 
 print("Here are all your passwords, from earliest to latest:", user.old_passwords)
 
