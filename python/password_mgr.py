@@ -11,9 +11,6 @@ class BasePasswordManager:
     #last item of old_passwords is current password
     old_passwords = []
 
-    #initializes password user's input as a class variable
-    password_input = None
-
     try: 
 
         with open('passwords.txt', 'r') as passwords:
@@ -43,28 +40,29 @@ class PasswordManager(BasePasswordManager):
 
         last_password = self.old_passwords[1] 
 
-        self.password_input = input('Set your password: ')
+        password_input = input('Set your password: ')
 
         #captures security level of user's new password input 
-        password_inp_security_level = self.get_level(self.password_input) 
+        password_inp_security_level = self.get_level(password_input) 
 
-        while len(self.password_input) < 6 or password_inp_security_level <= self.get_level(last_password):
+        while len(password_input) < 6 or password_inp_security_level <= self.get_level(last_password):
             
-            if len(self.password_input) < 6: 
-                self.password_input = input("Your password needs to be a minimum length of 6 characters. Try again: ")
+            if len(password_input) < 6: 
+                password_input = input("Your password needs to be a minimum length of 6 characters. Try again: ")
 
             if self.get_level(last_password) == 2: 
                 if self.get_level(last_password) == password_inp_security_level: 
                     password_inp_security_level += 1
             
             if password_inp_security_level <= self.get_level(last_password):
-                self.password_input = input('The new password you typed does not meet the requirments of a security level greater than your last password. Try again: ')
+                password_input = input('''The new password you typed does not meet the requirments \nof a security level greater than your last password. Try again: ''')
+                password_inp_security_level = self.get_level(password_input)
 
         with open('passwords.txt', 'a+') as pwds: 
-            pwds.write(self.password_input + '\n')
+            pwds.write(password_input + '\n')
        
         
-        return self.old_passwords.append(self.password_input)
+        return self.old_passwords.append(password_input)
 
     def get_level(self, password):
 
