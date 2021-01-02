@@ -1,7 +1,7 @@
 import string 
 
 letters = string.ascii_letters #reters to all English letters in lowercase and upper case in a string
-numbers = list(range(0, 10)) #refers to all numbers from 0 to 9 in a list
+numbers = "0123456789"
 special_chars = '''!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~'''
 
 
@@ -10,6 +10,9 @@ class BasePasswordManager:
     #list holding all user's past passwords
     #last item of old_passwords is current password
     old_passwords = []
+
+    #initializes password user's input as a class variable
+    password_input = None
 
     try: 
 
@@ -20,7 +23,7 @@ class BasePasswordManager:
 
     except: 
         pass
-        
+       
     def __str__(self):
         return "\nYour current password is {}\n".format(self.old_passwords[-1])
 
@@ -38,19 +41,29 @@ class PasswordManager(BasePasswordManager):
 
     def set_password(self):
 
-        inp = input('Set your password: ')
+        self.password_input = input('Set your password: ')
 
-        while len(inp) < 6:
-            inp = input("Your password need to be a minimum length of 6 characters. Try again: ")
+        while len(self.password_input) < 6:
+            self.password_input = input("Your password need to be a minimum length of 6 characters. Try again: ")
 
         with open('passwords.txt', 'a+') as pwds: 
-            pwds.write(inp + '\n')
+            pwds.write(self.password_input + '\n')
        
         
-        return self.old_passwords.append(inp)
+        return self.old_passwords.append(self.password_input)
 
     def get_level(self): 
-        pass 
+        for letter in letters: 
+            for num in numbers: 
+                for char in special_chars: 
+                    if letter in self.password_input and num in self.password_input and char in self.password_input: 
+                        level_3 = True
+                        print('Your new password meets security level 3 \n')
+                        return level_3
+        for char in self.password_input:
+            pass
+
+                    
 
 
 
@@ -72,6 +85,8 @@ while True:
             break
 
 print(user)
+
+user.get_level()
 
 print("Here are all your passwords, from earliest to latest:", user.old_passwords)
 
