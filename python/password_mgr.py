@@ -54,9 +54,10 @@ class PasswordManager(BasePasswordManager):
 user = PasswordManager()
 
 while True: 
-
     if user.old_passwords != []: 
         user_y_n = input('You already have a password. Do you want to set another one? y for yes, n for no ').lower()
+        while user_y_n not in ['y', 'n']: 
+            user_y_n = input("Sorry, did not understand. Type a y for yes or an n for no.")
         if user_y_n == 'y':
             user.set_password()
             user_y_n = input('Are you satisfied with this password? y for yes, n for no ')
