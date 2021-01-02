@@ -41,11 +41,12 @@ class PasswordManager(BasePasswordManager):
 
     def set_password(self):
 
-        last_password = self.old_passwords[1]
+        last_password = self.old_passwords[1] 
 
         self.password_input = input('Set your password: ')
 
-        password_inp_security_level = self.get_level(self.password_input)
+        #captures security level of user's new password input 
+        password_inp_security_level = self.get_level(self.password_input) 
 
         while len(self.password_input) < 6 or password_inp_security_level <= self.get_level(last_password):
             
