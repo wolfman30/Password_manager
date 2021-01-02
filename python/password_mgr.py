@@ -52,19 +52,12 @@ class PasswordManager(BasePasswordManager):
         
         return self.old_passwords.append(self.password_input)
 
-    def get_level(self): 
-
-        for letter in letters: 
-            for num in numbers: 
-                for char in special_chars: 
-                    if letter in self.password_input and num in self.password_input and char in self.password_input: 
-                        level_2 = True
-                        print('Your new password meets the requirments of security level 2 \n')
-                        return level_2
+    def get_level(self):
 
         letter_count = 0 
         num_count = 0 
-        char_count = 0 
+        char_count = 0
+        
         for char in self.password_input:
             if char in letters: 
                 letter_count += 1 
@@ -72,6 +65,7 @@ class PasswordManager(BasePasswordManager):
                 num_count += 1
             elif char in special_chars: 
                 char_count += 1 
+                
         if char_count == 0: 
             if (letter_count >= 1 and num_count == 0) or (letter_count == 0 and num_count >= 1):
                 level_0 = True
@@ -81,6 +75,11 @@ class PasswordManager(BasePasswordManager):
                 level_1 = True
                 print('Your new password meets the requirements of security level 1. \n')
                 return level_1
+        else: 
+            if letter_count >= 1 and num_count >= 1:
+                level_2 = True
+                print('Your new password meets the requirments of security level 2 \n')
+                return level_2
                     
 
 
