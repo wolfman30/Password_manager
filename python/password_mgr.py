@@ -41,14 +41,22 @@ class PasswordManager(BasePasswordManager):
 
     def set_password(self):
 
+        last_password = self.old_passwords[1]
+
         self.password_input = input('Set your password: ')
 
-        while len(self.password_input) < 6 or self.get_level(password=self.password_input) <= self.get_level(self.old_passwords[-1]):
+        password_inp_security_level = self.get_level(self.password_input)
+
+        while len(self.password_input) < 6 or password_inp_security_level <= self.get_level(last_password):
             
             if len(self.password_input) < 6: 
                 self.password_input = input("Your password needs to be a minimum length of 6 characters. Try again: ")
+
+            if self.get_level(last_password) == 2: 
+                if self.get_level(last_password) == password_inp_security_level: 
+                    password_inp_security_level += 1
             
-            if self.get_level(password=self.password_input) <= self.get_level(self.old_passwords[-1]):
+            if password_inp_security_level <= self.get_level(last_password):
                 self.password_input = input('The new password you typed does not meet the requirments of a security level greater than your last password. Try again: ')
 
         with open('passwords.txt', 'a+') as pwds: 
