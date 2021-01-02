@@ -40,6 +40,9 @@ class PasswordManager(BasePasswordManager):
 
         inp = input('Set your password: ')
 
+        while len(inp) < 6:
+            inp = input("Your password need to be a minimum length of 6 characters. Try again: ")
+
         with open('passwords.txt', 'a+') as pwds: 
             pwds.write(inp + '\n')
        
