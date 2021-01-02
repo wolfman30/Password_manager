@@ -33,8 +33,8 @@ class BasePasswordManager:
     def is_correct(self, string):
         if string == self.old_passwords[-1]:
             return True
-        else:
-            return False
+        
+        return False
 
 
 class PasswordManager(BasePasswordManager):
@@ -65,7 +65,7 @@ class PasswordManager(BasePasswordManager):
                 num_count += 1
             elif char in special_chars: 
                 char_count += 1 
-                
+
         if char_count == 0: 
             if (letter_count >= 1 and num_count == 0) or (letter_count == 0 and num_count >= 1):
                 level_0 = True
