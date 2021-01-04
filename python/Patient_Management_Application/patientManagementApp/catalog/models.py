@@ -2,17 +2,17 @@ from django.db import models
 
 # Create your models here.
 class Patient(models.Model): 
-    uniqueID = models.CharField(max_length=20, help_text="Enter the patient's unique ID: ")
-    firstName = models.CharField(max_length=20, help_text="Enter the patient's unique ID: ")
-    lastName = models.CharField(max_length=20, help_text="Enter the patient's unique ID: ")
-    dob = models.CharField(max_length=20, help_text="Enter the patient's unique ID: ")
+    unique_ID = models.CharField(max_length=20, unique=True, primary_key = True, help_text="Enter the patient's unique ID: ")
+    first_Name = models.CharField(max_length=20, help_text="Enter the patient's first name: ")
+    last_Name = models.CharField(max_length=20, help_text="Enter the patient's last name: ")
+    date_of_birth = models.DateField(help_text="Enter the patient's date of birth: ")
 
     class Meta: 
-        ordering = ['-uniqueID', '-firstName', '-lastName', '-dob']
+        ordering = ['unique_ID', 'first_Name', 'last_Name', 'date_of_birth']
 
     def get_absolute_url(self): 
         """Returns the url to access a particular instance of Patient"""
-        return reverse('model-detail-view', args=[str(self.id)])
+        return reverse('patient-detail', args=[str(self.primary_key)])
 
     def __str__(self): 
-        return (self.uniqueID, self.firstName, self.lastName, self.dob)
+        return f'{self.uniqueID}, {self.firstName}, {self.lastName}, {self.date_of_birth}'
